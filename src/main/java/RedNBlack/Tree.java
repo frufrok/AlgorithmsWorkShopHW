@@ -189,7 +189,7 @@ public class Tree {
         ArrayList<Node> treeList = this.getList();
         int width = this.getMaxWidth();
         int nodesCount = this.getList().size();
-        int treeHeight = (int)Math.ceil(Math.log(nodesCount)/Math.log(2) + 0.001);
+        int treeHeight = nodesCount == 2? 2 : (int)Math.ceil(Math.log(nodesCount)/Math.log(2));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < treeHeight; i++) {
             int restHeight = treeHeight - i;
@@ -215,14 +215,14 @@ public class Tree {
 
     private static String nodeString(Node node, int length) {
         String value = String.format("%d", node.value);
-        int space = length - value.length();
+        int spaces = length - value.length();
         int strips = length / 2 - value.length() - 1;
         StringBuilder sb = new StringBuilder();
         sb.append(node.color == Color.RED?
                 String.format("\033[31m%s\033[0m", value) : value);
-        if (space > 0) {
+        if (spaces > 0) {
             sb.append(node.left == null? (node.right == null? " ": "_") : "↓");
-            sb.append(node.right == null? " ".repeat(space - 1) : "_".repeat(strips) + "↓" + " ".repeat(space - 2 - strips));
+            sb.append(node.right == null? " ".repeat(spaces - 1) : "_".repeat(strips) + "↓" + " ".repeat(spaces - 2 - strips));
         }
         else {
             sb.append(" ".repeat(length - value.length()));
